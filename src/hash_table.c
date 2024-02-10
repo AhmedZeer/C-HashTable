@@ -70,18 +70,18 @@ static int ht_get_hash( const char* s , const int num_buckets , const int attemp
 }
 
 char* ht_search( ht_hash_table* ht, const char* key ){
-  int index = ht_get_hash(key, ht->count , 0);
+  int index = ht_get_hash(key, ht->size , 0);
   printf("the index search: %d\n", index);
   ht_item* item = ht->items[index];
   int i = 1;
-  while(!item){
+  while(item){
     if( item != &HT_DELETED_ITEM ){
       if( strcmp(key, item->key) == 0 ){
         printf("found in func.\n");
         char* retrn = item->value;
         return retrn;
       }
-      index = ht_get_hash(key, ht->count, i);
+      index = ht_get_hash(key, ht->size, i);
       item = ht->items[index];
       i++;
     }
@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
 
   ht_insert(ht,key,value);
 
-  ht_search(ht,key);
+  printf("value of search: %s\n", ht_search(ht,key));
 
   /*
   printf("table test: %s\n",ht->items[8]->key);
